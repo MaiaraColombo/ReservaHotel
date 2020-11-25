@@ -9,9 +9,9 @@ public class Reservation {
 	private Integer roomNumber;
 	private Date checkIn;
 	private Date checkOut;
-	
-	
-	// é static p/ que não seja instanciado um novo simple date format para cada objeto reservation
+
+	// é static p/ que não seja instanciado um novo simple date format para cada
+	// objeto reservation
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
@@ -49,22 +49,22 @@ public class Reservation {
 
 	}
 
-	public void updateDates(Date checkIn, Date checkOut) {
-		
+	public String updateDates(Date checkIn, Date checkOut) {
+		Date now = new Date();
+		if (checkIn.before(now) || checkOut.before(now)) {
+			return "Reservation dates for update must be future dates";
+		}
+		if (!checkOut.after(checkIn)) {
+			return "Check-out date must be after check-in date";
+		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Room" 
-				+ roomNumber
-				+ ", check-In: "
-				+ sdf.format(checkIn)
-				+ ", check-Out: "
-				+sdf.format(checkOut)
-				+", "
-				+ duration()
-				+" nights ";
+		return "Room" + roomNumber + ", check-In: " + sdf.format(checkIn) + ", check-Out: " + sdf.format(checkOut)
+				+ ", " + duration() + " nights ";
 	}
 }
